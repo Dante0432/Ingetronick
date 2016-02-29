@@ -47,6 +47,11 @@ alert(\'Hello world !\');
 		<?php echo $form->passwordField($model,'claveusr'); ?>
 		<?php echo $form->error($model,'claveusr'); ?>
 	</div>
+    <div class="row">
+		<?php //echo $form->labelEx($model,'id_forjar'); ?>
+		<?php echo $form->hiddenField($model,'id_forjar'); ?>
+		<?php echo $form->error($model,'id_forjar'); ?>
+	</div>
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Acceder'); ?>
 	</div>

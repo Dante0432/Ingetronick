@@ -16,21 +16,26 @@ class UserIdentity extends CUserIdentity
 	 * @return boolean whether authentication succeeds.
 	 */
 	 private $cedulaUsr;
+	 public $_sedeForjar;
 	 
 	public function authenticate()
 	{
 		//$usuario=Personal::model()->find('nombreusuario=?',array($this->username));
-		$persona=new Persona($this->username);
-		if($persona->consultaUsuario()===false)
+		$persona=new Usuario($this->username);
+		$persona->_clave=1234;
+		if($persona->consultaUsuario()===false){
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		elseif($this->password!==$persona->_clave)
+		}
+		elseif($this->password!==$persona->_clave){
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
+		}
 		else{
 			$this->errorCode=self::ERROR_NONE;
-			$this->setState('cedula',$persona->_cedula);
+			$persona->_cedula=1;
+			$this->setState('cedula',$persona->_cedula);			
 			$this->cedulaUsr=$persona->_cedula;
-			$this->setState('rol',$persona->_id_rol,'');
-			$this->setState('nombre',$persona->_nombre_profes.' '.$persona->_apellido_prof);
+			$this->setState('rol',$persona->_id_rol);
+			//$this->setState('nombre',$persona->_nombre_profes.' '.$persona->_apellido_prof);
 			//Yii::app()->getSession()->add('cedula',$cedula);
 		}
 		return !$this->errorCode;

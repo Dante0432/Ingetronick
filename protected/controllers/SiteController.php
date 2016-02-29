@@ -85,16 +85,20 @@ class SiteController extends Controller
 		$model=new LoginForm;
 
 		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
+		/*if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
-		}
+		}*/
 
 		// collect user input data
-		if(isset($_POST['LoginForm']))
+		if(isset($_GET['nombreusuario']))
 		{
-			$model->attributes=$_POST['LoginForm'];
+			$dataInput=Yii::app()->input->get();
+			//echo $dataInput["nombreusuario"];
+			//$model->attributes=$_POST['LoginForm'];
+			$model->nombreusuario=$dataInput["nombreusuario"];
+			$model->claveusr=1234;
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login()){				
 				Yii::app()->user->returnUrl = array("controlAp/index"); 
@@ -113,5 +117,12 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		//$this->redirect(Yii::app()->homeUrl);
 		$this->redirect(array("hola/prueba"));
+	}
+	
+	public function actionSearch(){
+		//$criterio=$_POST[" echo $_POST["search_term"];"];
+		 echo "blaa</br>";
+		 echo "blaa</br>";
+		 echo "blaa</br>";
 	}
 }

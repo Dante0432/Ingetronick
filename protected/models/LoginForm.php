@@ -4,13 +4,14 @@
  * LoginForm is the data structure for keeping
  * user login form data. It is used by the 'login' action of 'SiteController'.
  */
-class LoginForm extends CFormModel
-{
+class LoginForm extends CFormModel{
 	public $nombreusuario;
 	public $claveusr;
 	//public $rememberMe;
 	public $cedulaUsr;
 	private $_identity;
+	public $id_forjar;
+	public $pers_habilitado;
 
 	/**
 	 * Declares the validation rules.
@@ -26,16 +27,20 @@ class LoginForm extends CFormModel
 			array('claveusr', 'authenticate','claveusr'=>$this->claveusr),
 		);
 	}
-
+	
+	public function consultaSedeForjar($attribute,$params){
+		if(empty($this->_identity->_sedeForjar))
+			$this->addError('id_forjar','En el sistema SIGIAF, el profesional no se encuentra relacionado en una sede de Forjar');
+	}
 	/**
 	 * Declares attribute labels.
 	 */
-	/*public function attributeLabels()
+	public function attributeLabels()
 	{
 		return array(
-			'rememberMe'=>'Remember me next time',
+			'id_forjar'=>'Sede Forjar',
 		);
-	}*/
+	}
 
 	/**
 	 * Authenticates the password.
@@ -46,8 +51,10 @@ class LoginForm extends CFormModel
 		if(!$this->hasErrors())
 		{
 			$this->_identity=new UserIdentity($this->nombreusuario,$this->claveusr);
-			if(!$this->_identity->authenticate())
+			if(!$this->_identity->authenticate()){
 				$this->addError('claveusr','Nombre o clave de usuario incorrecta.');
+				$this->addError('id_forjar','');
+			}
 		}
 	}
 
@@ -65,8 +72,8 @@ class LoginForm extends CFormModel
 		if($this->_identity->errorCode===UserIdentity::ERROR_NONE)
 		{	
 			//Yii::app()->getSession()->add('cedula',$this->_identity->cedula);
-			$duration=30; // 30 segs
-			Yii::app()->user->login($this->_identity,$duration);
+			//$duration=30; // 30 segs
+			Yii::app()->user->login($this->_identity);
 			
 			return true;
 		}

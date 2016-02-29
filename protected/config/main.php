@@ -8,7 +8,7 @@
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'language'=>'es',
-	'name'=>'Centro Forjar',
+	'name'=>'Plataforma IK',
 	'defaultController'=>'site',
 
 	// preloading 'log' component
@@ -18,6 +18,7 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'application.extensions.select2.Select2'
 	),
 
 	'modules'=>array(
@@ -29,11 +30,17 @@ return array(
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
-		
+		 'tpmsgps',
+		 'admon',
 	),
 
 	// application components
 	'components'=>array(
+		'input'=>array(   
+            'class'         => 'CmsInput',  
+            'cleanPost'     => true,  
+            'cleanGet'      => true,   
+        ),
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
@@ -43,7 +50,7 @@ return array(
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
-			'urlSuffix'=>'.cforjar',
+			'urlSuffix'=>'.ik',
 			'rules'=>array(
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\d+>/*'=>'<controller>/<action>',
@@ -58,7 +65,7 @@ return array(
 		
 		'db'=>array(
  	       'tablePrefix'=>'',
- 	       'connectionString' => 'pgsql:host=localhost;port=5432;dbname=cforjarv2',
+ 	       'connectionString' => 'pgsql:host=localhost;port=5432;dbname=plataformaAVL',
  	       'username'=>'postgres',
  	       'password'=>'root',
  	       'charset'=>'UTF8',
@@ -66,7 +73,7 @@ return array(
 		
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
+			'errorAction'=>'/site/error',
 		),
 		'log'=>array(
 			'class'=>'CLogRouter',
